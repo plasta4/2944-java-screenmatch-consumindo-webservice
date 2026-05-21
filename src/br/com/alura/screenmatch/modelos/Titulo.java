@@ -1,11 +1,10 @@
 package br.com.alura.screenmatch.modelos;
 
+import br.com.alura.screenmatch.excecao.ErroDeConversaoDeAnoException;
 import com.google.gson.annotations.SerializedName;
 
 public class Titulo implements Comparable<Titulo> {
-    @SerializedName("Title")
     private String nome;
-    @SerializedName("Year")
     private int anoDeLancamento;
     private boolean incluidoNoPlano;
     private double somaDasAvaliacoes;
@@ -19,6 +18,10 @@ public class Titulo implements Comparable<Titulo> {
 
     public Titulo(TituloOmdb meuTituloOmbdb) {
         this.nome = meuTituloOmbdb.title();
+        if(meuTituloOmbdb.year().length() > 4) {
+            throw new ErroDeConversaoDeAnoException("Não consegui converter o ano" +
+            "Porque tem mais de 4 caracteres");
+        }
         this.anoDeLancamento = Integer.valueOf(meuTituloOmbdb.year());
         this.anoDeLancamento = Integer.valueOf(meuTituloOmbdb.year().substring(0,2));
     }
